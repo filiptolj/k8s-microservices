@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      service1: ${{ steps.filter.outputs.service1 }}
+      service2: ${{ steps.filter.outputs.service2 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            service1:
+              - 'service1/**'
+            service2:
+              - 'service2/**'
+
+  ci-service1:
+    needs: changes
+    if: needs.changes.outputs.service1 == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependencies
+        run: pip install pytest
+
+      - name: Run unit tests
+        run: pytest service1/tests/ -v
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: service1
+          push: false
+          tags: service1:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  ci-service2:
+    needs: changes
+    if: needs.changes.outputs.service2 == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependencies
+        run: pip install pytest requests
+
+      - name: Run unit tests
+        run: pytest service2/tests/ -v
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: service2
+          push: false
+          tags: service2:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
