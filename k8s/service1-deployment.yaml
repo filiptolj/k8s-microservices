@@ -15,10 +15,17 @@ spec:
     spec:
       containers:
         - name: service1
-          image: filee/task:service1-1.0.0
-          imagePullPolicy: IfNotPresent
+          image: filee/task:service1-latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
           readinessProbe:
             tcpSocket:
               port: 8080

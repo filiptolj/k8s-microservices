@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service2-config
+  namespace: demo-svcs
+data:
+  SERVICE1_URL: "http://service1:8080"
