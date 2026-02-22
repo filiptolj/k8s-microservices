@@ -17,6 +17,10 @@ spec:
         - name: service1
           image: filee/task:service1-latest
           imagePullPolicy: Always
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 8080
           resources:

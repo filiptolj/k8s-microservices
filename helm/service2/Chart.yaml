@@ -1,0 +1,5 @@
+apiVersion: v2
+name: service2
+description: Timestamp formatter service
+version: 1.0.1
+appVersion: "1.0.1"

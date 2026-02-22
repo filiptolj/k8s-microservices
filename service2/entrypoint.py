@@ -12,7 +12,7 @@ try:
     response = requests.post(SERVICE1_URL, data=format_type, timeout=10)
     response.raise_for_status()
 except requests.exceptions.ConnectionError:
-    print(f"Error: could not connect to service1 at {SERVICE1_URL}", file=sys.stderr)
+    print(f"Error: could not connect to service1", file=sys.stderr)
     sys.exit(1)
 except requests.exceptions.Timeout:
     print(f"Error: request to service1 timed out", file=sys.stderr)
