@@ -1,0 +1,35 @@
+image:
+  repository: filee/task
+  tag: service1-latest
+  pullPolicy: Always
+
+replicaCount: 1
+containerPort: 8080
+
+service:
+  port: 8080
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  allowPrivilegeEscalation: false
+
+networkPolicy:
+  enabled: true
+  allowFromApp: service2
+
+probes:
+  readiness:
+    initialDelaySeconds: 2
+    periodSeconds: 5
+  liveness:
+    initialDelaySeconds: 5
+    periodSeconds: 10

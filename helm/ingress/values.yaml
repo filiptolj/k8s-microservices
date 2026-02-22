@@ -1,0 +1,13 @@
+host: demo-svcs.local
+className: nginx
+
+backend:
+  service: service2
+  port: 8080
+
+path: /
+pathType: Prefix
+
+tls:
+  secretName: demo-svcs-tls
+  certDays: 365

@@ -1,0 +1,4 @@
+apiVersion: v2
+name: ingress
+description: Ingress and TLS for demo-svcs
+version: 1.0.0
