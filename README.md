@@ -21,8 +21,17 @@ Raw Kubernetes manifests for deploying both services to a local cluster (Minikub
 ### `helm/`
 Helm charts for deploying both services. Three separate charts:
 - `service1/` — deploys the service1 workload
+  ```bash
+  helm upgrade --install service1 helm/service1/ --namespace demo-svcs --create-namespace
+  ```
 - `service2/` — deploys the service2 workload
+  ```bash
+  helm upgrade --install service2 helm/service2/ --namespace demo-svcs
+  ```
 - `ingress/` — deploys the nginx ingress and auto-generates a self-signed TLS certificate
+  ```bash
+  helm upgrade --install ingress helm/ingress/ --namespace demo-svcs
+  ```
 
 ### `scripts/`
 Deployment automation scripts:
