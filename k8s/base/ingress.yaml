@@ -7,8 +7,13 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - demo-svcs.local
+      secretName: demo-svcs-tls
   rules:
-    - http:
+    - host: demo-svcs.local
+      http:
         paths:
           - path: /
             pathType: Prefix
